@@ -1,12 +1,10 @@
 ---
 name: upload de github pages
-# Le workflow se déclenchera quand on fera un git push sur main
-    on:
-      push:
-        branches:
-          - main
-
-
+  # Le workflow se déclenchera quand on fera un git push sur main
+on:
+  push:
+    branches:
+    - main
 jobs:
   # Build job
   build:
