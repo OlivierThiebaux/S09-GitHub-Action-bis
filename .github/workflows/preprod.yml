@@ -24,7 +24,7 @@
           uses: actions/upload-artifact@v4 # or specific "vX.X.X" version tag for this action
           with:
             path: site/
-            name: mapage
+            # name: mapage
     deploy:
       runs-on: 
         - self-hosted
@@ -33,4 +33,4 @@
         - uses: actions/download-artifact@v4
           with:
             path: /var/www/html
-            name: mapage
+            # name: mapage
