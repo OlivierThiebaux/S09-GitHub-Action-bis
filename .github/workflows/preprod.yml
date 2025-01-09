@@ -1,31 +1,35 @@
 ---
-  name: preprod release
+name: preprod release
   
-  on:
-    workflow_dispatch:
-    push:
-      branches:
-        - pre_prod
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - pre_prod
   
-  jobs:
-    build:
-      runs-on: ubuntu-latest
+jobs:
+     
+  # Build job (https://github.com/actions/upload-pages-artifact?tab=readme-ov-file)
+  build:
+    # Specify runner +  build & upload the static files as an artifact (https://github.com/marketplace/actions/upload-a-build-artifact)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get index.html from repository
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            index.html
+          sparse-checkout-cone-mode: false
+
+      - name: Upload static files as artifact
+        id: deployment
+        uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
+        with:
+          path: .
+
   
-      steps:
-        - name: Get data from repository
-          uses: actions/checkout@v4
-  
-        # - run: docker build --target build -t mkdocs-builder .
-  
-        # - run: docker container run --rm -v ./site:/app/site mkdocs-builder
-  
-        - name: Upload static files as artifact
-          id: deployment
-          uses: actions/upload-artifact@v4 # or specific "vX.X.X" version tag for this action
-          with:
-            path: site/
-            # name: mapage
-    deploy:
+  deploy:
+    
       runs-on: 
         - self-hosted
       needs: build
